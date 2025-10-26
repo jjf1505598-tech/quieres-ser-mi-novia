@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Quieres ser mi novia?</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    background: #ffe6f0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 3rem;
+    color: #ff2e63;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 10px rgba(255,0,100,0.4);
+    z-index: 1;
+  }
+
+  .buttons {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    z-index: 1;
+  }
+
+  button {
+    font-size: 1.3rem;
+    padding: 15px 35px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  #si {
+    background-color: #ff4f81;
+    color: white;
+    transform: scale(1);
+  }
+
+  #no {
+    background-color: #999;
+    color: white;
+    transform: scale(1);
+    position: relative;
+  }
+
+  #mensaje {
+    display: none;
+    font-size: 2rem;
+    color: #ff2e63;
+    margin-top: 30px;
+    text-shadow: 2px 2px 10px rgba(255,0,100,0.4);
+    z-index: 2;
+    animation: aparecer 1s ease forwards;
+  }
+
+  @keyframes aparecer {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .corazon {
+    position: fixed;
+    color: #ff3366;
+    font-size: 24px;
+    animation: caer 5s linear forwards;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes caer {
+    0% { transform: translateY(-10vh) scale(1); opacity: 1; }
+    100% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<audio id="musicaFondo" autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f4e90b2d02.mp3?filename=sweet-moments-112941.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="musicaRomantica">
+  <source src="https://cdn.pixabay.com/download/audio/2021/09/30/audio_2e5a1a9b6f.mp3?filename=romantic-love-story-11392.mp3" type="audio/mpeg">
+</audio>
+
+<h1>¿Quieres ser mi novia? 💖</h1>
+
+<div class="buttons">
+  <button id="si">Sí 💞</button>
+  <button id="no">No 😅</button>
+</div>
+
+<div id="mensaje">🎉 ¡Felicidades! Ahora somos novios 💕</div>
+
+<script>
+  const btnSi = document.getElementById("si");
+  const btnNo = document.getElementById("no");
+  const mensaje = document.getElementById("mensaje");
+  const botones = document.querySelector(".buttons");
+  const musicaFondo = document.getElementById("musicaFondo");
+  const musicaRomantica = document.getElementById("musicaRomantica");
+
+  let tamañoNo = 1;
+  let tamañoSi = 1;
+
+  // Generar corazones de fondo
+  for(let i=0; i<50; i++){
+    const heart = document.createElement("div");
+    heart.classList.add("corazon");
+    heart.textContent = ["❤️","💖","💕","💞","💘"][Math.floor(Math.random()*5)];
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = Math.random() * 100 + "vh";
+    heart.style.fontSize = 20 + Math.random() * 30 + "px";
+    heart.style.animationDuration = 4 + Math.random() * 6 + "s";
+    document.body.appendChild(heart);
+  }
+
+  btnNo.addEventListener("click", () => {
+    // Reducir tamaño
+    tamañoNo -= 0.1;
+    if(tamañoNo < 0.3) tamañoNo = 0.3;
+    btnNo.style.transform = `scale(${tamañoNo})`;
+
+    // Crecer botón sí
+    tamañoSi *= 1.2;
+    btnSi.style.transform = `scale(${tamañoSi})`;
+
+    // Mover el botón no un poco
+    const maxOffset = 50; // px
+    const offsetX = (Math.random() - 0.5) * maxOffset;
+    const offsetY = (Math.random() - 0.5) * maxOffset;
+    btnNo.style.left = `${offsetX}px`;
+    btnNo.style.top = `${offsetY}px`;
+  });
+
+  btnSi.addEventListener("click", () => {
+    musicaFondo.pause();
+    musicaRomantica.play();
+
+    botones.style.display = "none";
+    mensaje.style.display = "block";
+    lluviaDeCorazones();
+  });
+
+  function lluviaDeCorazones(){
+    const cantidad = 80;
+    for(let i=0;i<cantidad;i++){
+      const corazon = document.createElement("div");
+      corazon.classList.add("corazon");
+      corazon.textContent = ["❤️","💖","💕","💞","💘"][Math.floor(Math.random()*5)];
+      corazon.style.left = Math.random() * 100 + "vw";
+      corazon.style.fontSize = Math.random()*24+16 + "px";
+      corazon.style.animationDuration = Math.random()*2+2+"s";
+      document.body.appendChild(corazon);
+      setTimeout(()=> corazon.remove(),4000);
+    }
+  }
+</script>
+
+</body>
+</html>
